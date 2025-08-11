@@ -7,7 +7,12 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "test": "jest"
+    "test": "jest",
+    "docker:build": "docker build -t url-shortener-api .",
+    "docker:run": "docker run -d -p 5000:5000 --env-file .env --name url-shortener-api url-shortener-api",
+    "docker:stop": "docker stop url-shortener-api",
+    "docker:clean": "docker stop url-shortener-api && docker rm url-shortener-api",
+    "docker:logs": "docker logs -f url-shortener-api"
   },
   "keywords": [
     "url-shortener",

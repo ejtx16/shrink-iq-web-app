@@ -176,15 +176,112 @@ server/
 
 ### Docker Support
 
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY dist ./dist
-EXPOSE 5000
-CMD ["node", "dist/index.js"]
+The API is fully containerized with multi-stage builds for optimal production deployment.
+
+#### Quick Docker Commands
+
+```bash
+# Build and run locally
+npm run docker:build
+npm run docker:run
+
+# Stop and cleanup
+npm run docker:stop
+npm run docker:clean
+
+# View logs
+npm run docker:logs
 ```
+
+#### Docker Hub Deployment
+
+```bash
+# Build and push to Docker Hub
+./docker-build.sh latest your-dockerhub-username
+
+# Deploy from Docker Hub
+./docker-deploy.sh your-dockerhub-username latest 5000
+```
+
+#### Manual Docker Commands
+
+```bash
+# Build image
+docker build -t your-username/url-shortener-api:latest .
+
+# Run container
+docker run -d \
+  --name url-shortener-api \
+  -p 5000:5000 \
+  --env-file .env \
+  --restart unless-stopped \
+  your-username/url-shortener-api:latest
+
+# Check health
+curl http://localhost:5000/health
+```
+
+## 🐳 Docker Deployment
+
+### Prerequisites
+
+- Docker installed and running
+- Docker Hub account (for registry deployment)
+
+### Environment Setup
+
+1. **Create environment file**:
+   ```bash
+   cp env.production.example .env
+   # Edit .env with your actual values
+   ```
+
+2. **Required environment variables**:
+   - `MONGODB_URI`: MongoDB Atlas connection string
+   - `JWT_SECRET`: Strong JWT signing secret
+   - `BASE_URL`: Frontend URL for CORS
+   - `SHORT_DOMAIN`: Domain for short URLs
+
+### Local Development
+
+```bash
+# Build Docker image
+npm run docker:build
+
+# Run container with environment file
+npm run docker:run
+
+# View container logs
+npm run docker:logs
+
+# Stop and remove container
+npm run docker:clean
+```
+
+### Production Deployment
+
+1. **Build and push to Docker Hub**:
+   ```bash
+   # Login to Docker Hub
+   docker login
+
+   # Build and push (interactive script)
+   ./docker-build.sh latest your-dockerhub-username
+   ```
+
+2. **Deploy from Docker Hub**:
+   ```bash
+   # Deploy to any server with Docker
+   ./docker-deploy.sh your-dockerhub-username latest 5000
+   ```
+
+### Docker Features
+
+- **Multi-stage build**: Optimized production image size
+- **Security**: Non-root user, minimal attack surface
+- **Health checks**: Built-in container health monitoring
+- **Environment**: Runtime configuration via environment variables
+- **Logging**: Structured logging with Docker logs integration
 
 ## 🧪 Testing
 
@@ -194,6 +291,10 @@ npm test
 
 # Run linting
 npm run lint
+
+# Test Docker container
+docker run --rm -p 5000:5000 --env-file .env your-username/url-shortener-api:latest
+curl http://localhost:5000/health
 ```
 
 ## 📝 API Response Examples

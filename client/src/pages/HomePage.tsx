@@ -225,10 +225,10 @@ const HomePage: React.FC = () => {
             <h2 className="text-3xl font-bold text-primary-100 mb-4">Ready to Get Started?</h2>
             <p className="text-primary-100 mb-8 text-lg">Join thousands of users who trust ShortLink for their URL shortening needs.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/register" className="btn-primary bg-primary-100 text-primary-600 hover:bg-gray-100">
+              <Link to="/register" className="rounded-xl p-2 btn-primary bg-black text-white hover:opacity-70 border-primary-100">
                 Create Free Account
               </Link>
-              <Link to="/login" className="btn-secondary bg-primary-700 text-primary-100 hover:bg-primary-800 border-primary-700">
+              <Link to="/login" className="rounded-xl p-2 border border-black btn-secondary bg-primary-700 text-primary-100 hover:opacity-70">
                 Sign In
               </Link>
             </div>

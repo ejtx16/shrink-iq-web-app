@@ -15,7 +15,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: "https://url-shortener-api-1d56.onrender.com/", //onrender free tier api host
         changeOrigin: true,
       },
     },
