@@ -211,7 +211,7 @@ const AnalyticsPage: React.FC = () => {
                         fill="#8884d8"
                         dataKey="count"
                       >
-                        {analyticsData.browserStats.map((entry, index) => (
+                        {analyticsData.browserStats.map((_entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
