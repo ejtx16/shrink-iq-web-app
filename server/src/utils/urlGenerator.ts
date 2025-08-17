@@ -40,6 +40,7 @@ export const isCustomSlugAvailable = async (slug: string): Promise<boolean> => {
 
 export const formatShortUrl = (code: string): string => {
   // Use localhost with server port for local development
-  const serverPort = process.env.PORT || 5000;
-  return `http://localhost:${serverPort}/${code}`;
+  // const serverPort = process.env.PORT || 5000;
+  const serverUrl = process.env.BASE_URL || "http://localhost:5000";
+  return `${serverUrl}/${code}`;
 };
