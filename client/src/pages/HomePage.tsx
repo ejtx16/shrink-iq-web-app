@@ -122,31 +122,28 @@ const HomePage: React.FC = () => {
                   <label htmlFor="customSlug" className="block text-sm font-medium text-gray-700 mb-2">
                     Custom Slug (Optional)
                   </label>
-                  <div className="flex">
-                    <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                    https://url-shortener-api-1d56.onrender.com/hIgbdzp/
-                    </span>
-                    <Input
-                      type="text"
-                      id="customSlug"
-                      placeholder="my-custom-link"
-                      className={`input-field rounded-l-none ${errors.customSlug ? "border-red-500" : ""}`}
-                      // {...register("customSlug", {
-                      //   pattern: {
-                      //     value: /^[a-zA-Z0-9_-]+$/,
-                      //     message: "Only letters, numbers, hyphens, and underscores are allowed",
-                      //   },
-                      //   minLength: {
-                      //     value: 3,
-                      //     message: "Custom slug must be at least 3 characters",
-                      //   },
-                      //   maxLength: {
-                      //     value: 50,
-                      //     message: "Custom slug must be less than 50 characters",
-                      //   },
-                      // })}
-                    />
-                  </div>
+
+                  <Input
+                    type="text"
+                    id="customSlug"
+                    placeholder="my-custom-link"
+                    className={`input-field  ${errors.customSlug ? "border-red-500" : ""}`}
+                    // {...register("customSlug", {
+                    //   pattern: {
+                    //     value: /^[a-zA-Z0-9_-]+$/,
+                    //     message: "Only letters, numbers, hyphens, and underscores are allowed",
+                    //   },
+                    //   minLength: {
+                    //     value: 3,
+                    //     message: "Custom slug must be at least 3 characters",
+                    //   },
+                    //   maxLength: {
+                    //     value: 50,
+                    //     message: "Custom slug must be less than 50 characters",
+                    //   },
+                    // })}
+                  />
+
                   {errors.customSlug && <p className="text-red-500 text-sm mt-1">{errors.customSlug.message}</p>}
                 </div>
 
@@ -228,7 +225,10 @@ const HomePage: React.FC = () => {
               <Link to="/register" className="rounded-xl p-2 btn-primary bg-black text-white hover:opacity-70 border-primary-100">
                 Create Free Account
               </Link>
-              <Link to="/login" className="rounded-xl p-2 border border-black btn-secondary bg-primary-700 text-primary-100 hover:opacity-70">
+              <Link
+                to="/login"
+                className="rounded-xl p-2 border border-black btn-secondary bg-primary-700 text-primary-100 hover:opacity-70"
+              >
                 Sign In
               </Link>
             </div>
