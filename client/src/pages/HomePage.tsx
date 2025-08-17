@@ -124,7 +124,7 @@ const HomePage: React.FC = () => {
                   </label>
                   <div className="flex">
                     <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                      short.ly/
+                    https://url-shortener-api-1d56.onrender.com/hIgbdzp/
                     </span>
                     <Input
                       type="text"

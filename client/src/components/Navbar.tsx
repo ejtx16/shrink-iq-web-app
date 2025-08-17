@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <LinkIcon className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold text-gray-900">ShortLink</span>
+            <span className="text-xl font-bold text-gray-900">ShrinkIQ</span>
           </Link>
 
           {/* Navigation Links */}
