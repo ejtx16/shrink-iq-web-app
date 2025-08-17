@@ -39,8 +39,24 @@ export const isCustomSlugAvailable = async (slug: string): Promise<boolean> => {
 };
 
 export const formatShortUrl = (code: string): string => {
-  // Use localhost with server port for local development
-  // const serverPort = process.env.PORT || 5000;
-  const serverUrl = process.env.BASE_URL || "http://localhost:5000";
-  return `${serverUrl}/${code}`;
+  // Use SHORT_DOMAIN from environment variables for production
+  const shortDomain = process.env.SHORT_DOMAIN;
+
+  if (shortDomain && shortDomain !== "short.ly") {
+    // Remove trailing slash if present
+    const cleanDomain = shortDomain.replace(/\/$/, "");
+    return `${cleanDomain}/${code}`;
+  }
+
+  // Fallback: Use the current server's URL
+  const nodeEnv = process.env.NODE_ENV;
+  const port = process.env.PORT || 5000;
+
+  if (nodeEnv === "production") {
+    // In production, this should be your Render URL
+    return `https://url-shortener-api-1d56.onrender.com/${code}`;
+  }
+
+  // Local development
+  return `http://localhost:${port}/${code}`;
 };
