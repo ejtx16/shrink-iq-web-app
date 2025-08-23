@@ -127,6 +127,30 @@ build: {
 - **Output Directory**: Built files placed in `dist` folder
 - **Source Maps**: Enabled for debugging production builds
 
+## Key Differences: `define` vs `server`
+
+| Aspect | `define` Object | `server` Object |
+|--------|----------------|-----------------|
+| **Purpose** | Global constant replacements | Development server configuration |
+| **When Active** | Both development AND production | **Development ONLY** |
+| **Build Impact** | Values compiled into bundle | No impact on final build |
+| **Runtime Behavior** | Static replacement at build time | Dynamic request proxying during dev |
+| **Use Case** | Environment variables, feature flags | Dev server settings, API proxying |
+| **Performance** | Zero runtime overhead | Only affects dev server performance |
+| **Configuration Scope** | Application-wide constants | Local development environment |
+
+### How They Work Together
+
+#### During Development:
+1. Your React app requests: `fetch('/api/shorten')`
+2. **Server proxy** intercepts and forwards to appropriate backend
+3. **Define** provides the base URL for any direct API calls
+
+#### During Production Build:
+1. **Define** replaces `import.meta.env.VITE_API_BASE_URL` with actual URL string
+2. **Server** configuration is completely ignored
+3. Your app makes direct requests to the production API
+
 ## Environment Modes
 
 ### Available Modes:
