@@ -255,17 +255,169 @@ The frontend is configured to proxy API requests to the backend during developme
 
 ## 🚀 Deployment
 
+### Frontend Deployment to GitHub Pages
+
+This project is configured for easy deployment to GitHub Pages. Follow these steps to deploy your frontend application:
+
+#### 1. Install GitHub Pages Dependencies
+
+First, ensure `gh-pages` is installed as a development dependency:
+
+```bash
+cd client
+npm install --save-dev gh-pages
+```
+
+#### 2. Configure Vite for GitHub Pages
+
+Update your `vite.config.ts` file with the following configurations:
+
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path"
+import tailwindcss from "@tailwindcss/vite"
+
+export default defineConfig(({ mode }) => ({
+  plugins: [react(), tailwindcss()],
+  
+  // Base URL configuration for GitHub Pages deployment
+  // Handles deployment to subdirectories in production environments
+  base: mode === "production" ? "/<your-repo-name>/" : "/",
+  
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  
+  // Global constant replacements when bundling assets
+  define: {
+    // Set API URL based on mode
+    "import.meta.env.VITE_API_BASE_URL":
+      mode === "production"
+        ? '"https://your-api-domain.com/api"'  // Replace with your actual API URL
+        : mode === "development:local"
+        ? '"http://localhost:5000/api"'
+        : '"/api"',
+  },
+  
+  // ... rest of your configuration
+}));
+```
+
+**Key Vite Configuration Changes:**
+
+- **`base` property**: Sets the base URL for assets in production. For GitHub Pages, this should be `"/<repository-name>/"` to handle deployment to subdirectories.
+- **`define` property**: Provides global constant replacements during build time, allowing you to set different API URLs for different environments.
+
+#### 3. Configure package.json for GitHub Pages
+
+Update your `package.json` file in the client directory:
+
+```json
+{
+  "name": "your-app-name",
+  "description": "URL Shortener Web App",
+  "homepage": "https://<your-username>.github.io/<your-repo-name>/",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:local": "cross-env NODE_ENV=development:local vite --mode development:local",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  // ... rest of your configuration
+}
+```
+
+**Key Package.json Changes:**
+
+- **`homepage`**: Set to your GitHub Pages URL: `https://<username>.github.io/<repo-name>/`
+- **`predeploy` script**: Automatically builds the project before deployment
+- **`deploy` script**: Deploys the `dist` folder to the `gh-pages` branch
+
+#### 4. Deploy to GitHub Pages
+
+Once your configuration is complete, deploy your application:
+
+```bash
+cd client
+npm run deploy
+```
+
+This command will:
+1. Run `npm run build` (via the `predeploy` script)
+2. Create a `gh-pages` branch (if it doesn't exist)
+3. Push the built files from the `dist` directory to the `gh-pages` branch
+
+#### 5. Configure GitHub Repository Settings
+
+After running the deploy command, configure your GitHub repository:
+
+1. **Go to your repository on GitHub**
+2. **Navigate to Settings** → **Pages**
+3. **Source**: Select "Deploy from a branch"
+4. **Branch**: Choose `gh-pages` from the dropdown
+5. **Folder**: Select `/ (root)`
+6. **Click Save**
+
+#### 6. Access Your Deployed Application
+
+After a few minutes, your application will be available at:
+```
+https://<your-username>.github.io/<your-repo-name>/
+```
+
+#### 7. Subsequent Deployments
+
+For future deployments, simply run:
+
+```bash
+cd client
+npm run deploy
+```
+
+#### Important Notes
+
+- **First deployment** may take 5-10 minutes to become available
+- **Subsequent deployments** typically take 1-2 minutes to update
+- Ensure your **API endpoints** are configured for production in the Vite config
+- The `homepage` field in `package.json` must match your actual GitHub Pages URL
+- Make sure your repository is **public** or you have **GitHub Pro** for private repo Pages
+
+#### Troubleshooting GitHub Pages Deployment
+
+**Common Issues:**
+
+1. **404 Error**: Check that the `base` URL in Vite config matches your repository name
+2. **API Errors**: Ensure your production API URL is correctly set in the `define` section
+3. **Build Failures**: Run `npm run build` locally first to catch any build errors
+4. **Assets Not Loading**: Verify the `base` property includes the correct repository name
+
+**Useful Commands:**
+
+```bash
+# Check deployment status
+git log --oneline -n 5 gh-pages
+
+# Force redeploy
+npm run deploy -- --force
+
+# Preview build locally
+npm run build && npm run preview
+```
+
 ### Backend Deployment
 
 1. Build the TypeScript code: `npm run build`
 2. Set production environment variables
 3. Deploy to your preferred platform (Heroku, AWS, etc.)
-
-### Frontend Deployment
-
-1. Build the React app: `npm run build`
-2. Deploy the `dist` folder to a static hosting service
-3. Configure environment variables for API endpoints
 
 ### Database Setup
 
