@@ -1,5 +1,6 @@
 {
   "name": "shrink-iq-web-app",
+  "description": "URL Shortener Web App",
   "homepage": "https://ejtx16.github.io/shrink-iq-web-app/",
   "private": true,
   "version": "0.0.0",
